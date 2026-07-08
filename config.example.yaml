@@ -1,0 +1,22 @@
+# stretchy configuration example.
+# Production location: /etc/stretchy/config.yaml (created by `stretchy --init`).
+
+server:
+  host: 127.0.0.1
+  port: 9200
+
+# HTTP basic auth. Leave both empty (or omit the section) to disable.
+# ElasticPress: define EP_HOST as http://user:pass@127.0.0.1:9200
+auth:
+  username: ""
+  password: ""
+
+storage:
+  # One subdirectory per index, each with meta.json + wal.jsonl.
+  data_dir: /var/lib/stretchy
+
+logging:
+  # stretchy.log is written here; empty means stderr only.
+  dir: /var/log/stretchy
+  # debug | info | warn | error
+  level: info

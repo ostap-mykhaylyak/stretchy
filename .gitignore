@@ -1,0 +1,23 @@
+# Binaries and release artifacts
+bin/
+dist/
+/stretchy
+/stretchy.exe
+
+# Local configuration and data
+config.yaml
+data/
+
+# Test and coverage output
+*.test
+*.out
+coverage.html
+
+# IDE / editor
+.idea/
+.vscode/
+*.swp
+
+# OS noise
+.DS_Store
+Thumbs.db
