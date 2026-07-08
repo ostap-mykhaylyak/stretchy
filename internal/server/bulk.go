@@ -42,7 +42,7 @@ func (s *Server) handleBulk(w http.ResponseWriter, r *http.Request, defaultIndex
 
 	appendItem := func(op, indexName, id string, status int, result string, errType, errReason string) {
 		entry := map[string]interface{}{
-			"_index": indexName, "_type": "_doc", "_id": id, "status": status,
+			"_index": indexName, "_id": id, "status": status,
 		}
 		if errType != "" {
 			hadErrors = true

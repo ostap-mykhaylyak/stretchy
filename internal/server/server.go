@@ -16,10 +16,13 @@ import (
 	"github.com/ostap-mykhaylyak/stretchy/internal/logx"
 )
 
-// esVersion is what stretchy reports to clients. 7.10.2 keeps every
-// WordPress integration (ElasticPress & co.) on the widely supported
-// 7.x request/response formats.
-const esVersion = "7.10.2"
+// esVersion is what stretchy reports to clients: an Elasticsearch 8.x
+// release, so WordPress integrations (ElasticPress & co.) speak the
+// current typeless request/response formats.
+const (
+	esVersion     = "8.17.0"
+	luceneVersion = "9.12.0"
+)
 
 const maxBodySize = 256 << 20 // 256 MiB, bulk reindexing can be large
 
@@ -58,6 +61,20 @@ func (s *Server) Shutdown() {
 
 func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("X-Elastic-Product", "Elasticsearch")
+
+	// ES 8 clients negotiate with the vendor media type; echo the
+	// compatible-with level they asked for.
+	if accept := r.Header.Get("Accept"); strings.Contains(accept, "vnd.elasticsearch+json") {
+		compat := "8"
+		if i := strings.Index(accept, "compatible-with="); i >= 0 {
+			rest := accept[i+len("compatible-with="):]
+			if len(rest) > 0 && rest[0] >= '0' && rest[0] <= '9' {
+				compat = string(rest[0])
+			}
+		}
+		w.Header().Set("Content-Type",
+			"application/vnd.elasticsearch+json;compatible-with="+compat)
+	}
 
 	if s.cfg.Auth.Username != "" || s.cfg.Auth.Password != "" {
 		user, pass, ok := r.BasicAuth()
@@ -222,7 +239,10 @@ func (s *Server) writeJSON(w http.ResponseWriter, status int, v interface{}) {
 		status = http.StatusInternalServerError
 		raw = []byte(`{"error":{"type":"internal_error","reason":"response marshalling failed"},"status":500}`)
 	}
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	// keep a media type already negotiated in ServeHTTP
+	if w.Header().Get("Content-Type") == "" {
+		w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	}
 	w.WriteHeader(status)
 	w.Write(raw)
 }

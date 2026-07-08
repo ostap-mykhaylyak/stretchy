@@ -17,14 +17,14 @@ func (s *Server) handleRoot(w http.ResponseWriter, r *http.Request) {
 		"cluster_uuid": "stretchy-single-node",
 		"version": map[string]interface{}{
 			"number":                              esVersion,
-			"build_flavor":                        "oss",
+			"build_flavor":                        "default",
 			"build_type":                          "tar",
 			"build_hash":                          "stretchy-" + s.version,
 			"build_date":                          "2026-01-01T00:00:00.000000Z",
 			"build_snapshot":                      false,
-			"lucene_version":                      "8.7.0",
-			"minimum_wire_compatibility_version":  "6.8.0",
-			"minimum_index_compatibility_version": "6.0.0-beta1",
+			"lucene_version":                      luceneVersion,
+			"minimum_wire_compatibility_version":  "7.17.0",
+			"minimum_index_compatibility_version": "7.0.0",
 		},
 		"tagline": "You Know, for Search",
 	})

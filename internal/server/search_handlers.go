@@ -63,7 +63,7 @@ func (s *Server) handleSearch(w http.ResponseWriter, r *http.Request, indexExpr 
 	hits := make([]map[string]interface{}, 0, len(res.Hits))
 	for _, h := range res.Hits {
 		hit := map[string]interface{}{
-			"_index": h.Index, "_type": "_doc", "_id": h.ID,
+			"_index": h.Index, "_id": h.ID,
 		}
 		if h.Sort != nil {
 			hit["sort"] = h.Sort

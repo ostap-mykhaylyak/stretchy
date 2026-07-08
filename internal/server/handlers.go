@@ -472,7 +472,7 @@ func (s *Server) handleStub(w http.ResponseWriter, r *http.Request, seg []string
 
 func docResponse(indexName, id, result string, version int64) map[string]interface{} {
 	return map[string]interface{}{
-		"_index": indexName, "_type": "_doc", "_id": id,
+		"_index": indexName, "_id": id,
 		"_version": version, "result": result,
 		"_shards": shardsOK(), "_seq_no": version, "_primary_term": 1,
 	}

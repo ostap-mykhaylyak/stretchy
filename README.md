@@ -5,7 +5,7 @@ Elasticsearch, scritto in Go, pensato per ottimizzare le ricerche di
 WordPress / WooCommerce (ElasticPress e plugin simili) su un singolo
 server, senza il peso della JVM.
 
-- API REST compatibile con Elasticsearch 7.x (si presenta come `7.10.2`)
+- API REST compatibile con Elasticsearch 8.x (si presenta come `8.17.0`, API typeless, header `X-Elastic-Product`, media type `compatible-with`)
 - indice invertito in memoria con scoring BM25, persistenza su disco (WAL + compattazione)
 - query DSL: `match`, `match_phrase`, `multi_match`, `term`, `terms`, `range`,
   `exists`, `prefix`, `wildcard`, `fuzzy` (AUTO), `ids`, `bool`,
